@@ -1,0 +1,43 @@
+{% extends "layaout.html" %}
+
+{% block contenido %}
+
+<form method="POST" action="/operaBas">
+    <div class="mb-3">
+        <label for="n1" class="form-label">Numero1</label>
+        <input type="text" class="form-control" id="n1" name="n1">
+    </div>
+    <div class="mb-3">
+        <label for="n2" class="form-label">Numero2</label>
+        <input type="text" class="form-control" id="n2" name="n2">
+    </div>
+    <button type="submit" class="btn btn-primary">Calcular</button>
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="operacion" value="suma" checked>
+        <label class="form-check-label">Suma</label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="operacion" value="resta" checked>
+        <label class="form-check-label">Resta</label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="operacion" value="multiplicacion" checked>
+        <label class="form-check-label">Multiplicacion</label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="operacion" value="division" checked>
+        <label class="form-check-label">Division</label>
+    </div>
+</form>
+
+<h1>
+    El resultado es: {{ resultado }}
+</h1>
+
+
+
+{% endblock %}

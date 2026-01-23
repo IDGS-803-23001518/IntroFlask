@@ -1,0 +1,18 @@
+{% extends "layaout.html" %}
+
+{% block contenido %}
+
+{% import "_macros.html" as macros %}
+
+<h1>Alumnos</h1>
+<form method="POST" action="/alumnos">
+
+    {{ macros.datos("n1", "Numero1","number") }}
+    {{ macros.datos("nombre", "Nombre") }}
+    {{ macros.datos("password", "Password","password") }}
+    {{ macros.datos("telefono", "Telefono","telefono") }}
+
+    <button type="submit" class="btn btn-primary">Calcular</button>
+</form>
+
+{% endblock %}
