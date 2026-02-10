@@ -16,3 +16,9 @@
 {% endif %}
 
 {% endmacro %}
+
+{% macro camposNuevo(label, placeholder, type, name) %}
+<label>{{ label }}</label>
+<input type="{{ type }}" name="{{ name }}" placeholder="{{ placeholder }}" required>
+<br><br>
+{% endmacro %}

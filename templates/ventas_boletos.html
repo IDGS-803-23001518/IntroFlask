@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinepolis</title>
+    <style>
+        .flash-messages {
+            background-color: #ffeb3b;
+            color: #333;
+            padding: 10px;
+            margin: 10px auto;
+            border-radius: 5px;
+            width: 600px;
+            text-align: center;
+        }
+        .form-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+        .form-section {
+            border: 2px solid white;
+            color: white;
+            padding: 20px;
+            background-color: darkblue;
+            width: 350px;
+        }
+        .error-messages {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .error-list {
+            display: inline-block;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body style="background-image: url('https://cinepremiere.com.mx/wp-content/uploads/2017/09/ayuda-sismo-cinepolis-1024x559.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center; padding-bottom: 200px;">
+
+    <div style="text-align:center; background-color:white; width:200px; margin:auto;">
+        <h1>Cinepolis</h1>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-container">
+            <div class="form-section">
+                <h2>Entradas</h2>
+
+                <div style="padding:10px; text-align:center;">
+                    {% import "_macros.html" as macros %}
+            
+                    {{ macros.camposNuevo('Nombre:', 'Ingresa tu nombre', 'text', 'nombre') }}
+                    
+                    {{ macros.camposNuevo('Cantidad compradores:', 'Ingresa cantidad', 'number', 'compradores') }}
+                    
+                    <div style="margin: 15px 0;">
+                        <label>Tarjeta cineco: </label><br>
+                        {% for subfield in form.cineco %}
+                            <span style="margin: 0 10px;">
+                                {{ subfield }} {{ subfield.label }}
+                            </span>
+                        {% endfor %}
+                    </div>
+
+                    {{ macros.camposNuevo('Cantidad de boletos:', 'Ingresa cantidad', 'number', 'boletos') }}
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Salidas</h2>
+
+                <div style="text-align:center; margin: 20px 0;">
+                    <label for="valorPagar" style="font-size: 18px;">Valor a pagar: </label><br>
+                    <input type="text" id="valorPagar" value="${{ Total if Total else '0.00' }}" disabled style="font-size: 16px; padding: 5px; width: 150px; text-align: center;">
+                </div>
+
+                <div style="text-align:center; margin-top: 30px;">
+                    <button type="submit" style="padding: 10px 20px; margin: 0 10px; cursor: pointer;">Procesar</button>
+                    <button type="reset" style="padding: 10px 20px; margin: 0 10px; cursor: pointer;">Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    {% if form.errors %}
+        <div class="error-messages">
+            <h3>Errores de validación:</h3>
+            <ul class="error-list">
+                {% for field_name, field_errors in form.errors.items() %}
+                    {% for error in field_errors %}
+                        <li>{{ form[field_name].label.text }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+</body>
+
+</html>

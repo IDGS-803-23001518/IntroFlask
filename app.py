@@ -2,7 +2,6 @@ from wtforms.fields import core
 from flask import Flask, render_template, request
 from flask import flash
 from flask_wtf.csrf import CSRFProtect
-
 import forms
 
 app = Flask(__name__)
@@ -99,6 +98,38 @@ def operas1():
             op = "división"
 
     return render_template("operaBas.html",resultado=resultado)
+
+@app.route("/cinepolis", methods=["GET", "POST"])
+def cinepolis():
+    nombre = ""
+    cantiCompradores = 0
+    tarjCineco = ""
+    cantiBoletos = 0
+    Total = 0
+    
+    cinepolis_class = forms.CinepolisForm()
+    
+    if cinepolis_class.validate_on_submit():
+        nombre = cinepolis_class.nombre.data
+        cantiCompradores = cinepolis_class.compradores.data
+        tarjCineco = cinepolis_class.cineco.data
+        cantiBoletos = cinepolis_class.boletos.data
+        limit = cantiCompradores * 7
+        
+        if cantiBoletos <= limit:
+            Total = cantiBoletos * 12
+            if 3 <= cantiBoletos <= 5:
+                Total *= 0.90
+            if cantiBoletos > 5:
+                Total *= 0.85
+            if tarjCineco == "si":
+                Total *= 0.90
+        else:
+            Total = 0
+            alert = "Solo se permiten 7 boletos por comprador"
+            flash(alert)
+    
+    return render_template("ventas_boletos.html", form=cinepolis_class, nombre=nombre, cantiCompradores=cantiCompradores, tarjCineco=tarjCineco, cantiBoletos=cantiBoletos, Total=Total)
 
 
 if __name__ == '__main__':
